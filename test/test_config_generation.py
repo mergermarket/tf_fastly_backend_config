@@ -20,25 +20,12 @@ class TestConfigGeneration(unittest.TestCase):
         check_call(['terraform', 'get', 'test/infra'])
         self.output = check_output([
             'terraform', 'apply',
-            '-var', 'defaults_vcl_recv_condition=test-cond',
             '-var', 'defaults_backend_name=test-backend',
             '-var', 'defaults_backend_host=test-host',
             '-var', 'ssl_ca_cert=line 1\nline 2\nline 3\n',
             '-var', 'ssl_check_cert=never',
             'test/infra'
         ]).decode('utf-8')
-
-
-    def test_vcl_recv(self):
-        self.assertRegexpMatches(
-            self.output,
-            re.compile(optional_whitespace(r'''
-                defaults_vcl_recv =
-                if \( req.backend == F_default_backend && \( test-cond \) \) \{
-                    set req\.backend \= test-backend\;
-                \}
-            '''), re.X)
-        )
 
 
     def test_backend_defaults(self):

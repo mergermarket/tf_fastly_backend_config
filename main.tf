@@ -1,16 +1,3 @@
-data "template_file" "vcl_recv" {
-  template = <<END
-        if (req.backend == F_default_backend && ($${vcl_recv_condition})) {
-            set req.backend = $${backend_name};
-        }
-END
-
-  vars {
-    vcl_recv_condition = "${var.vcl_recv_condition}"
-    backend_name       = "${var.backend_name}"
-  }
-}
-
 data "template_file" "vcl_backend" {
   template = <<END
         backend $${backend_name} {
@@ -39,7 +26,6 @@ data "template_file" "vcl_backend" {
 END
 
   vars {
-    vcl_recv_condition    = "${var.vcl_recv_condition}"
     backend_name          = "${var.backend_name}"
     first_byte_timeout    = "${var.first_byte_timeout}"
     connect_timeout       = "${var.connect_timeout}"

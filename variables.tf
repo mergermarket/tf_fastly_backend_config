@@ -1,8 +1,3 @@
-variable "vcl_recv_condition" {
-  description = "boolean condition to use to select the backend in vcl_recv"
-  type        = "string"
-}
-
 variable "backend_name" {
   description = "Identifier for the backend/"
   type        = "string"
